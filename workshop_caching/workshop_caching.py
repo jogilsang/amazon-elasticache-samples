@@ -44,9 +44,6 @@ TTL = 10
 # Configure the application name with the FLASK_APP environment variable.
 app = Flask(__name__)
 
-# Configure the secret_key with the SECRET_KEY environment variable.
-app.secret_key = os.environ.get('SECRET_KEY', default=None)
-
 # TODO 1 : Redis를 사용해보기
 Cache = redis.Redis.from_url(REDIS_URL)
 
