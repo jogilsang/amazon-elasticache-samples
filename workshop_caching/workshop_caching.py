@@ -26,20 +26,20 @@ class DB:
             cursor.execute(sql, values)
             return cursor.fetchone()
 
-# Time to live for cached data
-TTL = 10
-
 # Read the Redis credentials from the REDIS_URL environment variable.
 REDIS_URL = os.environ.get('REDIS_URL')
 
 # Read the DB credentials from the DB_* environment variables.
-# DB_HOST = os.environ.get('DB_HOST')
-# DB_USER = os.environ.get('DB_USER')
-# DB_PASS = os.environ.get('DB_PASS')
-# DB_NAME = os.environ.get('DB_NAME')
+DB_HOST = os.environ.get('DB_HOST')
+DB_USER = os.environ.get('DB_USER')
+DB_PASS = os.environ.get('DB_PASS')
+DB_NAME = os.environ.get('DB_NAME')
 
 # Initialize the database
-# Database = DB(host=DB_HOST, user=DB_USER, password=DB_PASS, db=DB_NAME)
+Database = DB(host=DB_HOST, user=DB_USER, password=DB_PASS, db=DB_NAME)
+
+# Time to live for cached data
+TTL = 10
 
 # Configure the application name with the FLASK_APP environment variable.
 app = Flask(__name__)
@@ -48,45 +48,11 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', default=None)
 
 # TODO 1 : Redis를 사용해보기
-# Connect to Redis with the REDIS_URL environment variable.
-# store = redis.Redis.from_url(os.environ.get('REDIS_URL'))
 Cache = redis.Redis.from_url(REDIS_URL)
 
 @app.route('/')
 def index():
-    if 'username' in session:
-        
-        username = escape(session['username'])
-        visits = store.hincrby(username, 'visits', 1)
-        
-        # TODO 2 : TTL 설정을 확인해보기
-        # store.expire(username, 10)
-
-        return render_template('./index_login.html',username=username, visits=visits)
-        # '''
-        #     Logged in as {0}.<br>
-        #     Visits: {1}
-        # '''.format(username, visits)
-
-    return render_template('./index_not_login.html')
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect('/')
-
-    return render_template('./index_post.html')
-    # <form method="post">
-    #     <p><input type=text name=username>
-    #     <p><input type=submit value=Login>
-    # </form>
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect('/')
+    return redirect('/db')
 
 @app.route('/db')
 def db():

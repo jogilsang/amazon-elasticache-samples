@@ -23,19 +23,18 @@ app.secret_key = os.environ.get('SECRET_KEY', default=None)
 
 # TODO 1 : Redis를 사용해보기
 # Connect to Redis with the REDIS_URL environment variable.
-# store = redis.Redis.from_url(os.environ.get('REDIS_URL'))
+store = redis.Redis.from_url(os.environ.get('REDIS_URL'))
 
 @app.route('/')
 def index():
     if 'username' in session:
-        
         username = escape(session['username'])
         visits = store.hincrby(username, 'visits', 1)
-        
-        # TODO 2 : TTL 설정을 확인해보기
-        # store.expire(username, 10)
 
-        return render_template('./index_login.html',username=username, visits=visits)
+        # TODO 2: TTL 설정을 확인해보기
+        store.expire(username, TTL)
+
+        return render_template('./index_login.html', username=username, visits=visits)
         # '''
         #     Logged in as {0}.<br>
         #     Visits: {1}
