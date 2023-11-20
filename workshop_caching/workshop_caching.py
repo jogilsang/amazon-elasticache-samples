@@ -33,13 +33,13 @@ TTL = 10
 REDIS_URL = os.environ.get('REDIS_URL')
 
 # Read the DB credentials from the DB_* environment variables.
-DB_HOST = os.environ.get('DB_HOST')
-DB_USER = os.environ.get('DB_USER')
-DB_PASS = os.environ.get('DB_PASS')
-DB_NAME = os.environ.get('DB_NAME')
+# DB_HOST = os.environ.get('DB_HOST')
+# DB_USER = os.environ.get('DB_USER')
+# DB_PASS = os.environ.get('DB_PASS')
+# DB_NAME = os.environ.get('DB_NAME')
 
 # Initialize the database
-Database = DB(host=DB_HOST, user=DB_USER, password=DB_PASS, db=DB_NAME)
+# Database = DB(host=DB_HOST, user=DB_USER, password=DB_PASS, db=DB_NAME)
 
 # Configure the application name with the FLASK_APP environment variable.
 app = Flask(__name__)
@@ -49,7 +49,7 @@ app.secret_key = os.environ.get('SECRET_KEY', default=None)
 
 # TODO 1 : Redis를 사용해보기
 # Connect to Redis with the REDIS_URL environment variable.
-store = redis.Redis.from_url(os.environ.get('REDIS_URL'))
+# store = redis.Redis.from_url(os.environ.get('REDIS_URL'))
 Cache = redis.Redis.from_url(REDIS_URL)
 
 @app.route('/')
