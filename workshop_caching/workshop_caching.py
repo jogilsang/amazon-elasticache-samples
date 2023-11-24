@@ -24,11 +24,11 @@ class DB:
             cursor.execute(sql, values)
             return cursor.fetchone()
 
-# Load environment variables from the .env file
-load_dotenv()
-
 # Read the Redis credentials from the REDIS_URL environment variable.
 REDIS_URL = os.environ.get('REDIS_URL')
+
+# Load environment variables from the .env file
+load_dotenv()
 
 # Read the DB credentials from the DB_* environment variables.
 DB_HOST = os.environ.get('DB_HOST')
