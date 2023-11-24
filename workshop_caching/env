@@ -1,0 +1,4 @@
+DB_HOST=AuroraMySQL 앤드포인트 주소
+DB_USER=admin
+DB_PASS=adminadmin
+DB_NAME=tutorial

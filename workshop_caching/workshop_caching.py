@@ -1,6 +1,3 @@
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: MIT-0
-
 import os
 import redis
 import json
@@ -8,6 +5,7 @@ import pymysql
 import math
 import time
 from flask import Flask, session, redirect, escape, request, render_template
+from dotenv import load_dotenv
 
 class DB:
     def __init__(self, **params):
@@ -25,6 +23,9 @@ class DB:
         with self.mysql.cursor() as cursor:
             cursor.execute(sql, values)
             return cursor.fetchone()
+
+# Load environment variables from the .env file
+load_dotenv()
 
 # Read the Redis credentials from the REDIS_URL environment variable.
 REDIS_URL = os.environ.get('REDIS_URL')
